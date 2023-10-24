@@ -1,13 +1,13 @@
 import mongoose, { Schema } from 'mongoose';
 
-interface Flight {
+export interface FlightType {
     code: string;
     origin: string;
     destination: string;
     status: string;
 }
 
-const schema = new Schema<Flight>(
+const schema = new Schema<FlightType>(
     {
         code: { required: true, type: String },
         origin: { required: true, type: String },

@@ -1,22 +1,63 @@
-const assert = require('assert')
-import { PersonsModel } from '../src/models/persons.model'
-import { db } from '../src/memory-database'
-import { after } from 'mocha'
+import { expect } from '@jest/globals'
+import { FlightsModel } from '../src/databases/mongo/models/flights.model'
+import { DatabaseInstanceStrategy } from '../src/database'
+import { MongoStrategy } from '../src/databases/mongo/mongodb';
+
+let databaseInstance: MongoStrategy;
 
 beforeEach(async () => {
-    await db({ test: true })
+    DatabaseInstanceStrategy.setInstanceByEnv('mongo')
+    databaseInstance = DatabaseInstanceStrategy.getInstance()
+
+    await FlightsModel.deleteMany({})
 })
 
-describe('Persons Model', async () => {
-    it('Allows to create two persons with different emails', async () => {
+describe('Flight Model', () => {
+    it('Allows to create two Flight', async () => {
         // Arrange
+        const flight1 = {
+            code: 'ABC-123',
+            origin: 'EZE',
+            destination: 'LDN',
+            status: 'ACTIVE',
+        }
+
+        const flight2 = {
+            code: 'XYZ-678',
+            origin: 'CRC',
+            destination: 'MIA',
+            status: 'ACTIVE',
+        }
+
         // Act
+        const createdFlight1 = await databaseInstance.addFlight(flight1)
+        const createdFlight2 = await databaseInstance.addFlight(flight2)
+
         // Assert
+        expect(createdFlight1).toBeDefined
+        expect(createdFlight2).toBeDefined
     })
 
-    it('Prevents creating a person that already exists on the Database', async () => {
+    it('Prevents creating a Flight that already exists on the Database', async () => {
         // Arrange
-        // Act
-        // Assert
+        const flight = {
+            code: 'ABC-123',
+            origin: 'EZE',
+            destination: 'LDN',
+            status: 'ACTIVE',
+        }
+
+        // Act: Add the flight to the database
+        await databaseInstance.addFlight(flight)
+
+        // Try to add the same flight again
+        try {
+            await databaseInstance.addFlight(flight)
+
+            // If the flight is added wtih no problem, the test should fail
+            throw new Error('Adding a duplicate flight should throw an error.')
+        } catch (error: any) {
+            expect(error.message).toContain('duplicate key error')
+        }
     })
 })

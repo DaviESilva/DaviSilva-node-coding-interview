@@ -1,6 +1,7 @@
 import { Database } from '../database_abstract';
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import { FlightType } from "./models/flights.model"
 
 import { FlightsModel } from './models/flights.model';
 
@@ -45,4 +46,34 @@ export class MongoStrategy extends Database {
     public async getFlights() {
         return FlightsModel.find({});
     }
+    
+    public async addFlight(Flight: FlightType) {
+        try {
+            const newFlight = new FlightsModel(Flight);
+            const savedFlight = await newFlight.save();
+            return savedFlight;
+          } catch (error) {
+            throw error;
+          }
+    }
+
+    public async updateFlightStatus(code: string, newStatus: { status: string }) {
+        try {
+            const updatedFlight = await FlightsModel.findOneAndUpdate(
+              { code: code },
+              { status: newStatus.status },
+              { new: true }
+            );
+        
+            if (!updatedFlight) {
+              throw new Error(`Flight with code ${code} not found.`);
+            }
+        
+            return updatedFlight;
+          } catch (error) {
+            throw error;
+          }
+    }
+
+    
 }

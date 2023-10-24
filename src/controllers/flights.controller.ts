@@ -25,10 +25,16 @@ export default class FlightsController {
     }
 
     @Put('/:code')
-    async updateFlightStatus(@Param('code') code: string) {
+    async updateFlightStatus(
+        @Param('code') code: string,
+        @Body()
+        status: {
+            status: string;
+        },
+        ) {
         return {
             status: 200,
-            data: await this._flightsService.updateFlightStatus(code),
+            data: await this._flightsService.updateFlightStatus(code, status),
         };
     }
 

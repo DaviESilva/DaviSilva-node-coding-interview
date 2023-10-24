@@ -1,3 +1,5 @@
+import { FlightType } from "./mongo/models/flights.model";
+
 export class Database {
     public static _instance: any;
 
@@ -9,16 +11,11 @@ export class Database {
         // subclass must implement this method
     }
 
-    public async updateFlightStatus(code: string) {
+    public async updateFlightStatus(code: string, newStatus: { status: string }) {
         // subclass must implement this method
     }
 
-    public async addFlight(flight: {
-        code: string;
-        origin: string;
-        destination: string;
-        status: string;
-    }) {
+    public async addFlight(flight: FlightType) {
         // subclass must implement this method
     }
 }
