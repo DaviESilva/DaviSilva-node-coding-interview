@@ -1,7 +1,7 @@
 {
     "name": "nodejs-coding-interview-master",
     "description": "NodeJS coding interview for BEON Tech Studio",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "main": "index.js",
     "author": "Davi Silva",
     "license": "ISC",
@@ -16,7 +16,7 @@
     },
     "scripts": {
         "build": "tsc --build",
-        "dev": "ts-node ./src",
+        "dev": "nodemon --exec ts-node ./src",
         "format": "prettier -w 'src/**/*.ts'",
         "test": "jest"
     },

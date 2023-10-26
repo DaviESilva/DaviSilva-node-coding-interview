@@ -11,11 +11,15 @@ export class Database {
         // subclass must implement this method
     }
 
-    public async updateFlightStatus(code: string, newStatus: { status: string }) {
+    public async updateFlight(code: string, flight: FlightType) {
         // subclass must implement this method
     }
 
     public async addFlight(flight: FlightType) {
+        // subclass must implement this method
+    }
+
+    public async getFlight(code: string) {
         // subclass must implement this method
     }
 }

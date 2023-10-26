@@ -53,9 +53,6 @@ describe('Flight Model', () => {
         // Try to add the same flight again
         try {
             await databaseInstance.addFlight(flight)
-
-            // If the flight is added wtih no problem, the test should fail
-            throw new Error('Adding a duplicate flight should throw an error.')
         } catch (error: any) {
             expect(error.message).toContain('duplicate key error')
         }

@@ -1,10 +1,12 @@
 import mongoose, { Schema } from 'mongoose';
+import { PersonType } from './person.model';
 
 export interface FlightType {
     code: string;
     origin: string;
     destination: string;
     status: string;
+    persons: PersonType[]
 }
 
 const schema = new Schema<FlightType>(
@@ -13,6 +15,7 @@ const schema = new Schema<FlightType>(
         origin: { required: true, type: String },
         destination: { required: true, type: String },
         status: String,
+        persons: {required: false, type: Array<PersonType>}
     },
     { timestamps: true },
 );
