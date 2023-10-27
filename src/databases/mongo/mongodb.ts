@@ -44,7 +44,7 @@ export class MongoStrategy extends Database {
     }
 
     public async getFlights() {
-        return FlightsModel.find({})
+        return FlightsModel.find({}).sort({ createdAt: -1 })
     }
 
     public async getFlight(code: string) {

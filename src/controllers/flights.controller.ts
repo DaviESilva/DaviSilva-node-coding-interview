@@ -82,4 +82,17 @@ export default class FlightsController {
             data: await this._flightsService.addFlight(flight),
         }
     }
+
+    // add Person
+    @Post('/person/:code')
+    async addPersonToFlight(
+        @Param('code') code: string,
+        @Body()
+        person: PersonType
+    ) {
+        return {
+            status: 200,
+            data: await this._flightsService.addPersonToFlight(code, person),
+        }
+    }
 }
